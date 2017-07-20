@@ -1,0 +1,12 @@
+require 'test_helper'
+
+class <%= resource.camelize %>Test < ActiveSupport::TestCase
+  def setup
+    @<%= resource.downcase %> = <%= resource.camelize %>.new
+  end
+
+  test 'valid <%= resource.downcase %>' do
+    assert @<%= resource.downcase %>.valid?
+    assert_empty @<%= resource.downcase %>.errors
+  end
+end

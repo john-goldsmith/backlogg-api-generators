@@ -1,0 +1,7 @@
+class Create<%= resource_pluralized.capitalize %> < ActiveRecord::Migration[5.0]
+  def change
+    create_table :<%= resource_pluralized.downcase %> do |t|
+      t.timestamps
+    end
+  end
+end

@@ -1,0 +1,14 @@
+# See https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-one
+# See http://sourcey.com/building-the-prefect-rails-5-api-only-app/
+
+module <%= version.camelize %>
+
+  class ApiController < ApplicationController
+
+    include <%= version.camelize %>::Concerns::RespondWith
+    include <%= version.camelize %>::Concerns::ExceptionHandler
+    # include <%= version.camelize %>::Concerns::Docs::ApiController
+
+  end
+
+end

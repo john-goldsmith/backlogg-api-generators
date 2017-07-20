@@ -1,0 +1,6 @@
+module <%= version.camelize %>
+
+  class ApiSerializer < ApplicationSerializer
+  end
+
+end

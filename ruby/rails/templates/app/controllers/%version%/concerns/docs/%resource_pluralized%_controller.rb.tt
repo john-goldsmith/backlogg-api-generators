@@ -1,0 +1,111 @@
+module <%= version.camelize %>
+
+  module Concerns
+
+    module Docs
+
+      module <%= resource_pluralized.camelize %>Controller
+
+        extend ActiveSupport::Concern
+
+        included do
+
+          include Swagger::Blocks
+
+          swagger_path '/' do
+
+            operation :get do
+              key :description, 'Returns all <%= resource_pluralized.downcase %>'
+              key :operationId, 'getAll<%= resource_pluralized.camelize %>'
+              key :tags, [
+                '<%= resource.downcase %>'
+              ]
+              response 200 do
+                key :description, '<%= resource.downcase %> response'
+                schema do
+                  key :type, :object
+                  key :'$ref', :<%= resource.camelize %>
+                end
+                # key :examples, ''
+              end
+            end
+
+            operation :post do
+              key :description, 'Creates a new <%= resource.downcase %>'
+              key :operationId, 'create<%= resource.camelize %>'
+              key :tags, [
+                '<%= resource.downcase %>'
+              ]
+              response 200 do
+                key :description, '<%= resource.camelize %> response'
+                schema do
+                  key :type, :object
+                  key :'$ref', :<%= resource.camelize %>
+                end
+                # key :examples, ''
+              end
+            end
+
+          end
+
+          swagger_path '/{id}' do
+
+            operation :get do
+              key :description, 'Returns a specific <%= resource.downcase %>'
+              key :operationId, 'get<%= resource.camelize %>'
+              key :tags, [
+                '<%= resource.downcase %>'
+              ]
+              response 200 do
+                key :description, '<%= resource.camelize %> response'
+                schema do
+                  key :type, :object
+                  key :'$ref', :<%= resource.camelize %>
+                end
+                # key :examples, ''
+              end
+            end
+
+            operation :put do
+              key :description, 'Updates a specific <%= resource.downcase %>'
+              key :operationId, 'update<%= resource.camelize %>'
+              key :tags, [
+                '<%= resource.downcase %>'
+              ]
+              response 200 do
+                key :description, '<%= resource.camelize %> response'
+                schema do
+                  key :type, :object
+                  key :'$ref', :<%= resource.camelize %>
+                end
+                # key :examples, ''
+              end
+            end
+
+            operation :delete do
+              key :description, 'Deletes a specific <%= resource.downcase %>'
+              key :operationId, 'delete<%= resource.camelize %>'
+              key :tags, [
+                '<%= resource.downcase %>'
+              ]
+              response 200 do
+                key :description, '<%= resource.camelize %> response'
+                schema do
+                  key :type, :object
+                  key :'$ref', :<%= resource.camelize %>
+                end
+                # key :examples, ''
+              end
+            end
+
+          end
+
+        end
+
+      end
+
+    end
+
+  end
+
+end

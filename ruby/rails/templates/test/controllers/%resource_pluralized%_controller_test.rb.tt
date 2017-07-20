@@ -1,0 +1,85 @@
+require 'test_helper'
+
+class <%= resource_pluralized.camelize %>ControllerTest < ActionDispatch::IntegrationTest
+  fixtures :<%= resource_pluralized.downcase %>
+
+  def setup
+    @version = <%= version %>
+    @<%= resource.downcase %> = <%= resource_pluralized.downcase %>()
+    @serializer = <%= version.camelize %>::<%= resource.camelize %>Serializer.new @<%= resource.downcase %>
+    @serialization = ActiveModelSerializers::Adapter.create @serializer
+  end
+
+  test 'index' do
+    get <%= version %>_url
+    assert_response :success
+  end
+
+  test 'create' do
+    params = {
+      <%= resource.downcase %>: {
+      }
+    }
+    assert_difference('<%= resource.camelize %>.count') do
+      post <%= version %>_url, params: params
+    end
+    assert_response :success
+    assert_equal @<%= resource.downcase %>, <%= resource.camelize %>.last
+  end
+
+  test 'create invalid record' do
+    params = {
+      <%= resource.downcase %>: {}
+    }
+    post <%= version %>_url, params: params
+    assert_response :unprocessable_entity
+    expected = '{"errors":[{"detail":"","status":422}]}'
+    assert_equal expected, @response.body
+  end
+
+  test 'show' do
+    get "/#{@version}/#{@<%= resource.downcase %>.id}"
+    assert_response :success
+    assert_equal @serialization.to_json, @response.body
+  end
+
+  test 'show 404' do
+    <%= resource.downcase %>_id = 123456789
+    get "/#{@version}/#{user_id}"
+    assert_response :not_found
+    expected = '{"errors":[{"id":"#{user_id}","detail":"Couldn\'t find <%= resource.camelize %> with \'id\'=#{user_id}","status":404,"meta":{"model":"<%= resource.camelize %>"}}]}'
+    assert_equal expected, @response.body
+  end
+
+  test 'update' do
+    params = {
+      <%= resource.downcase %>: {}
+    }
+    put "/#{@version}/#{@<%= resource.downcase %>.id}", params: params
+    assert_response :success
+    assert_equal @<%= resource.downcase %>.email, <%= resource.camelize %>.find(@<%= resource.downcase %>.id)
+  end
+
+  test 'update param missing' do
+    params = {
+      <%= resource.downcase %>: {}
+    }
+    put "/#{@version}/#{@<%= resource.downcase %>.id}", params: params
+    assert_response :bad_request
+    expected = '{"errors":[{"detail":"param is missing or the value is empty: <%= resource.downcase %>","status":400,"meta":{"param":"<%= resource.downcase %>"}}]}'
+    assert_equal expected, @response.body
+  end
+
+  test 'destroy' do
+    assert_difference('<%= resource.camelize %>.count', -1) do
+      delete "/#{@version}/#{@<%= resource.downcase %>.id}"
+    end
+    assert_response :success
+    refute_equal <%= resource.camelize %>.last, @<%= resource.downcase %>
+  end
+
+  test 'docs' do
+    # get <%= version %>_docs_url
+    # assert_response :success
+  end
+end

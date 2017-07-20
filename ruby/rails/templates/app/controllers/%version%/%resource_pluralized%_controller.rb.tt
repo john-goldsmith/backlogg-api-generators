@@ -1,0 +1,75 @@
+# See https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-one
+# See http://sourcey.com/building-the-prefect-rails-5-api-only-app/
+
+module <%= version.camelize %>
+
+  class <%= resource_pluralized.camelize %>Controller < ApiController
+
+    # include <%= version.camelize %>::Concerns::Docs::<%= resource_pluralized.camelize %>Controller
+
+    before_action :set_<%= resource.downcase %>, only: [:show, :update, :destroy]
+
+    #
+    # GET /
+    #
+    # @return [type] [description]
+    def index
+      respond_with <%= resource.capitalize %>.all
+    end
+
+    #
+    # POST /
+    #
+    # @return [type] [description]
+    def create
+      @<%= resource.downcase %> = <%= resource.capitalize %>.create! <%= resource.downcase %>_params
+      respond_with @<%= resource.downcase %>, :created
+    end
+
+    #
+    # GET /:id
+    #
+    # @return [type] [description]
+    def show
+      respond_with @<%= resource.downcase %>
+    end
+
+    #
+    # PUT /:id
+    #
+    # @return [type] [description]
+    def update
+      @<%= resource.downcase %>.update <%= resource.downcase %>_params
+      respond_with @<%= resource.downcase %>
+    end
+
+    #
+    # DELETE /:id
+    #
+    # @return [type] [description]
+    def destroy
+      @<%= resource.downcase %>.destroy
+      respond_with meta: {}
+    end
+
+    private
+
+    #
+    # [<%= resource.downcase %>_params description]
+    #
+    # @return [type] [description]
+    def <%= resource.downcase %>_params
+      params.require(:<%= resource.downcase %>).permit()
+    end
+
+    #
+    # [set_<%= resource.downcase %> description]
+    #
+    # @return [type] [description]
+    def set_<%= resource.downcase %>
+      @<%= resource.downcase %> = <%= resource.capitalize %>.find params[:id]
+    end
+
+  end
+
+end

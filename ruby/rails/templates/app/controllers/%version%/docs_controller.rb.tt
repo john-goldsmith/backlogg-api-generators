@@ -1,0 +1,11 @@
+# See https://github.com/fotinakis/swagger-blocks#docs-controller
+
+module <%= version.camelize %>
+
+  class DocsController < ActionController::Base
+
+    # include <%= version.camelize %>::Concerns::Docs::DocsController
+
+  end
+
+end

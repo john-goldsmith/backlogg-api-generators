@@ -1,0 +1,11 @@
+module <%= version.camelize %>
+
+  class <%= resource.camelize %>Serializer < ApiSerializer
+
+    attributes :id,
+               :created_at,
+               :updated_at
+
+  end
+
+end

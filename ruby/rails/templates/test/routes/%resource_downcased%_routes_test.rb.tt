@@ -1,0 +1,31 @@
+require 'test_helper'
+
+class <%= resource.camelize %>RoutesTest < ActionDispatch::IntegrationTest
+  def setup
+    @version = '<%= version %>'
+  end
+
+  test "index" do
+    assert_routing({ method: 'get', path: "/#{@version}" }, { controller: "#{@version}/<%= resource_pluralized.downcase %>", action: 'index' })
+  end
+
+  test "create" do
+    assert_routing({ method: 'post', path: "/#{@version}" }, { controller: "#{@version}/<%= resource_pluralized.downcase %>", action: 'create' })
+  end
+
+  test "show" do
+    assert_routing({ method: 'get', path: "/#{@version}/123" }, { controller: "#{@version}/<%= resource_pluralized.downcase %>", action: 'show', id: '123' })
+  end
+
+  test "update" do
+    assert_routing({ method: 'put', path: "/#{@version}/123" }, { controller: "#{@version}/<%= resource_pluralized.downcase %>", action: 'update', id: '123' })
+  end
+
+  test "destroy" do
+    assert_routing({ method: 'delete', path: "/#{@version}/123" }, { controller: "#{@version}/<%= resource_pluralized.downcase %>", action: 'destroy', id: '123' })
+  end
+
+  test "docs" do
+    assert_routing({ method: 'get', path: "/#{@version}/docs" }, { controller: "#{@version}/docs", action: 'index' })
+  end
+end

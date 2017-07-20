@@ -1,0 +1,17 @@
+# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+# See http://andrewberls.com/blog/post/api-versioning-with-rails-4
+
+Rails.application.routes.draw do
+
+  # constraints subdomain: '<%= resource_pluralized.downcase %>' do
+    namespace :<%= version %> do
+      get "/", to: "<%= resource_pluralized.downcase %>#index"
+      get "/:id", to: "<%= resource_pluralized.downcase %>#show", constraints: { id: /\d+/ }
+      put "/:id", to: "<%= resource_pluralized.downcase %>#update"
+      delete "/:id", to: "<%= resource_pluralized.downcase %>#destroy"
+      post "/", to: "<%= resource_pluralized.downcase %>#create"
+      get "/docs", to: "docs#index"
+    end
+  # end
+
+end

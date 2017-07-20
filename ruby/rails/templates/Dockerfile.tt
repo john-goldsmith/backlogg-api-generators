@@ -1,0 +1,11 @@
+FROM ruby:<%= options[:ruby] %>
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN mkdir -p /backlogg/backlogg-api-<%= resource_pluralized.downcase %>
+WORKDIR /backlogg/backlogg-api-<%= resource_pluralized.downcase %>
+COPY . ./
+RUN gem install bundler --no-document
+RUN bundle install
+EXPOSE <%= options['docker-port'] %>
+# ENTRYPOINT ["bundle", "exec"]
+ENTRYPOINT ["./docker-entry.sh"]
+CMD ["rails", "server", "-p", "<%= options['docker-port'] %>", "-b", "0.0.0.0"]

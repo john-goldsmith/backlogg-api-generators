@@ -1,0 +1,5 @@
+class <%= resource.camelize %> < ApplicationRecord
+
+  # include Docs::<%= resource.camelize %>
+
+end

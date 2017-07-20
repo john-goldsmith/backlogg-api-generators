@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+require 'thor'
+require 'active_support/inflector'
+
+class BackloggRubyRailsApiGenerator < Thor::Group
+
+  include Thor::Actions
+
+  desc "Scaffolds a Backlogg microservice using Ruby on Rails"
+  argument :resource, type: :string, required: true, desc: 'The singularized service resource (i.e., user)'
+  argument :version, type: :string, required: true, desc: 'The API version (i.e., v1)'
+  class_option 'resource-plural', aliases: '-p', type: :string, required: false, desc: 'The pluralized service resource (i.e., users). Useful for overriding ActiveSupport::Inflector.'
+  class_option :ruby, aliases: '-u', type: :string, default: '2.4.0', required: false, desc: 'Ruby version number'
+  class_option :rails, aliases: '-a', type: :string, default: '~> 5.0.2', required: false, desc: 'Rails version number'
+  class_option 'docker-port', aliases: '-d', type: :string, default: '3000', required: false, desc: 'The port that Docker should expose'
+
+  def self.source_root
+    File.dirname __FILE__
+  end
+
+  def rails_new
+    # run 'rails new . --api'
+  end
+
+  def parse_templates
+    directory 'templates', '.'
+  end
+
+  def migration_timestamp
+    Time.now.strftime '%Y%m%d%H%M%S'
+  end
+
+  def resource_pluralized_downcased
+    resource_pluralized.downcase
+  end
+
+  def resource_pluralized
+    options['resource-plural'] || resource.pluralize
+  end
+
+  def resource_downcased
+    resource.downcase
+  end
+
+  def resource_camelized
+    resource.camelize
+  end
+
+  def resource_upcased
+    resource.upcase
+  end
+
+  def git_init
+    run 'git init'
+  end
+
+end
+
+BackloggRubyRailsApiGenerator.start
