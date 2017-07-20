@@ -1,15 +1,18 @@
 # Backlogg API Generator
 
-## Thor
-Generators are built using a Ruby gem called [Thor](https://github.com/erikhuda/thor). Additional generators (such as [Slush](http://slushjs.github.io) or [Yeoman](http://yeoman.io/)) can be added as needed.
+## Requirements
+* Ruby 2.4.x
+
+## Tooling
+Generators are built using a Ruby gem called [Thor](https://github.com/erikhuda/thor) (`gem install thor`). Additional generators (such as [Slush](http://slushjs.github.io) or [Yeoman](http://yeoman.io/)) can be added as needed.
 
 ## New generator guidelines
 
 ### Folder structure
 ```
-<language>/
-  └ <framework>/
-    ├ <templates>/
+<language>
+  └ <framework>
+    ├ <templates>
     │ └ file.ext.tt
     ├ bin
     └ README.md
@@ -55,13 +58,13 @@ BackloggApiGenerator.start
 ### Top-level files
 The following is a list of top-level files and commands that new generators should take into consideration.
 
-* README.md
-* Dockerfile
-* .dockerignore
-* .gitignore
-* .env
-* .env.example
-* docker-entry.sh
+* `README.md`
+* `Dockerfile`
+* `.dockerignore`
+* `.gitignore`
+* `.env`
+* `.env.example`
+* `docker-entry.sh`
 * Run `git init`
 
 ## To do
