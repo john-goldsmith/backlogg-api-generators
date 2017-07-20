@@ -19,7 +19,7 @@ class BackloggRubyRailsApiGenerator < Thor::Group
   end
 
   def rails_new
-    # run 'rails new . --api'
+    run 'rails new . --api'
   end
 
   def parse_templates
