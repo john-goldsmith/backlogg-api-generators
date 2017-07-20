@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require 'thor'
+require 'active_support/inflector'
+
+class BackloggNodeExpressApiGenerator < Thor::Group
+
+  include Thor::Actions
+
+  desc "Scaffolds a Backlogg microservice using Node/Express"
+  argument :resource, type: :string, required: true, desc: 'The singularized service resource (i.e., user)'
+  argument :version, type: :string, required: true, desc: 'The API version (i.e., v1)'
+  class_option 'resource-plural', aliases: '-p', type: :string, required: false, desc: 'The pluralized service resource (i.e., users). Useful for overriding ActiveSupport::Inflector.'
+  class_option 'docker-port', aliases: '-d', type: :string, default: '3000', required: false, desc: 'The port that Docker should expose'
+
+  def self.source_root
+    File.dirname __FILE__
+  end
+
+  def parse_templates
+    directory 'templates', '.'
+  end
+
+  def resource_pluralized_downcased
+    resource_pluralized.downcase
+  end
+
+  def resource_pluralized
+    options['resource-plural'] || resource.pluralize
+  end
+
+  def git_init
+    run 'git init'
+  end
+
+end
+
+BackloggNodeExpressApiGenerator.start
