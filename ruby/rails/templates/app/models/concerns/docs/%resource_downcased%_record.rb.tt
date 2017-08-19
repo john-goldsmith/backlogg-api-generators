@@ -10,8 +10,89 @@
 
         include Swagger::Blocks
 
-        swagger_schema :<%= resource.camelize %> do
+        swagger_schema :<%= resource_camelized %> do
+          property :test do
+            key :type, :string
+          end
+          property :created_at do
+            key :type, :string
+          end
+          property :updated_at do
+            key :type, :string
+          end
+        end
 
+        swagger_schema :CreateOrModify<%= resource_camelized %>Parameters do
+          key :required, [:<%= resource %>]
+          property :<%= resource %> do
+            key :type, :object
+            property :test do
+              key :type, :string
+            end
+          end
+        end
+
+        swagger_schema :JsonApiDataObject do
+          property :data do
+            key :type, :object
+            property :attributes do
+              key :type, :object
+              key :'$ref', :<%= resource_camelized %>
+            end
+            property :id do
+              key :type, :string
+            end
+            property :type do
+              key :type, :string
+            end
+          end
+        end
+
+        swagger_schema :JsonApiDataArray do
+          property :data do
+            key :type, :array
+            items do
+              key :type, :object
+              property :attributes do
+                key :type, :object
+                key :'$ref', :<%= resource_camelized %>
+              end
+              property :id do
+                key :type, :string
+              end
+              property :type do
+                key :type, :string
+              end
+            end
+          end
+        end
+
+        swagger_schema :JsonApiErrorArray do
+          property :errors do
+            key :type, :array
+            items do
+              key :type, :object
+              key :'$ref', :Error
+            end
+          end
+        end
+
+        swagger_schema :Error do
+          property :detail do
+            key :type, :string
+          end
+          property :id do
+            key :type, :string
+          end
+          property :status do
+            key :type, :integer
+          end
+          property :meta do
+            key :type, :object
+            property :model do
+              key :type, :string
+            end
+          end
         end
 
       end

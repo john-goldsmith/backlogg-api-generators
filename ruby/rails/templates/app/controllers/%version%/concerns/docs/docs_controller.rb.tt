@@ -1,3 +1,5 @@
+# Generated using the Backlogg Ruby on Rails generator
+
 module <%= version.camelize %>
 
   module Concerns
@@ -17,10 +19,10 @@ module <%= version.camelize %>
             info do
               key :version, '0.1.0'
               key :title, '<%= resource_pluralized.camelize %> Microservice'
-              key :description, ''
+              key :description, 'A microservice for interacting with <%= resource_pluralized %>.'
               key :termsOfService, 'http://backlogg.io/terms'
               contact do
-                key :name, 'Backlogg API Team'
+                key :name, 'Backlogg Development Team <development@backlogg.io>'
               end
               license do
                 key :name, 'MIT'
@@ -30,14 +32,14 @@ module <%= version.camelize %>
               key :name, '<%= resource.downcase %>'
               key :description, '<%= resource.camelize %> operations'
               externalDocs do
-                key :description, 'Find more info here'
-                key :url, 'https://swagger.io'
+                key :description, 'Backlogg Developer Documentation'
+                key :url, 'https://developers.backlogg.io'
               end
             end
             key :host, '<%= resource_pluralized.downcase %>.backlogg.dev:<%= options['docker-port'] %>'
             key :basePath, '/<%= version %>'
             key :consumes, ['application/json']
-            key :produces, ['application/json']
+            key :produces, ['application/vnd.api+json']
           end
 
           # A list of all classes that have swagger_* declarations.

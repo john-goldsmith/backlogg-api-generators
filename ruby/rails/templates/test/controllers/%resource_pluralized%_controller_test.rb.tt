@@ -29,7 +29,9 @@ class <%= resource_pluralized.camelize %>ControllerTest < ActionDispatch::Integr
 
   test 'create invalid record' do
     params = {
-      <%= resource.downcase %>: {}
+      <%= resource.downcase %>: {
+        somekey: 'invalid"'
+      }
     }
     post <%= version %>_url, params: params
     assert_response :unprocessable_entity
@@ -53,11 +55,13 @@ class <%= resource_pluralized.camelize %>ControllerTest < ActionDispatch::Integr
 
   test 'update' do
     params = {
-      <%= resource.downcase %>: {}
+      <%= resource.downcase %>: {
+        somekey: 'something different'
+      }
     }
     put "/#{@version}/#{@<%= resource.downcase %>.id}", params: params
     assert_response :success
-    assert_equal @<%= resource.downcase %>.email, <%= resource.camelize %>.find(@<%= resource.downcase %>.id)
+    assert_equal @<%= resource.downcase %>.somekey, @response.parsed_body["data"]["attributes"]["somekey"]
   end
 
   test 'update param missing' do
@@ -74,8 +78,16 @@ class <%= resource_pluralized.camelize %>ControllerTest < ActionDispatch::Integr
     assert_difference('<%= resource.camelize %>.count', -1) do
       delete "/#{@version}/#{@<%= resource.downcase %>.id}"
     end
-    assert_response :success
+    assert_response :no_content
     refute_equal <%= resource.camelize %>.last, @<%= resource.downcase %>
+  end
+
+  test 'destroy 404' do
+    <%= resource.downcase %>_id_id = 123456789
+    assert_difference('User.count', 0) do
+      delete "/#{@version}/#{<%= resource.downcase %>_id_id}"
+    end
+    assert_response :not_found
   end
 
   test 'docs' do

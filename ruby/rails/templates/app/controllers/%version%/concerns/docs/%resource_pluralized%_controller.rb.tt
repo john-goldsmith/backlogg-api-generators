@@ -15,34 +15,54 @@ module <%= version.camelize %>
           swagger_path '/' do
 
             operation :get do
-              key :description, 'Returns all <%= resource_pluralized.downcase %>'
+              key :summary, 'Get all <%= resource_pluralized_downcased %>'
+              key :description, 'Get all <%= resource_pluralized_downcased %>'
               key :operationId, 'getAll<%= resource_pluralized.camelize %>'
+              key :produces, [
+                'application/vnd.api+json'
+              ]
               key :tags, [
                 '<%= resource.downcase %>'
               ]
               response 200 do
-                key :description, '<%= resource.downcase %> response'
+                key :description, 'OK'
                 schema do
                   key :type, :object
-                  key :'$ref', :<%= resource.camelize %>
+                  key :'$ref', :JsonApiDataArray
                 end
-                # key :examples, ''
               end
             end
 
             operation :post do
-              key :description, 'Creates a new <%= resource.downcase %>'
+              key :summary, 'Create a new <%= resource_downcased %>'
+              key :description, 'Creates a new <%= resource.downcase %> and returns the newly created <%= resource.downcase %>'
               key :operationId, 'create<%= resource.camelize %>'
               key :tags, [
                 '<%= resource.downcase %>'
               ]
+              parameter do
+                key :name, :<%= resource_downcased %>
+                key :in, :body
+                key :description, '<%= resource_camelized %>'
+                key :required, true
+                key :type, :object
+                schema do
+                  key :'$ref', :CreateOrModify<%= resource_camelized %>Parameters
+                end
+              end
               response 200 do
-                key :description, '<%= resource.camelize %> response'
+                key :description, 'OK'
                 schema do
                   key :type, :object
-                  key :'$ref', :<%= resource.camelize %>
+                  key :'$ref', :JsonApiDataObject
                 end
-                # key :examples, ''
+              end
+              response 422 do
+                key :description, 'Unprocessable entity'
+                schema do
+                  key :type, :object
+                  key :'$ref', :JsonApiErrorArray
+                end
               end
             end
 
@@ -51,50 +71,93 @@ module <%= version.camelize %>
           swagger_path '/{id}' do
 
             operation :get do
-              key :description, 'Returns a specific <%= resource.downcase %>'
+              key :summary, 'Get a specific <%= resource.downcase %>'
+              key :description, 'Get a specific <%= resource.downcase %>'
               key :operationId, 'get<%= resource.camelize %>'
               key :tags, [
                 '<%= resource.downcase %>'
               ]
+              parameter do
+                key :name, :id
+                key :in, :path
+                key :description, 'ID of <%= resource.downcase %> to fetch'
+                key :required, true
+                key :type, :integer
+                key :format, :int64
+              end
               response 200 do
-                key :description, '<%= resource.camelize %> response'
+                key :description, 'OK'
                 schema do
                   key :type, :object
-                  key :'$ref', :<%= resource.camelize %>
+                  key :'$ref', :JsonApiDataObject
                 end
-                # key :examples, ''
+              end
+              response 404 do
+                key :description, 'Not found'
+                schema do
+                  key :type, :object
+                  key :'$ref', :JsonApiErrorArray
+                end
               end
             end
 
             operation :put do
-              key :description, 'Updates a specific <%= resource.downcase %>'
+              key :summary, 'Update a specific <%= resource.downcase %>'
+              key :description, 'Update a specific <%= resource.downcase %>'
               key :operationId, 'update<%= resource.camelize %>'
               key :tags, [
                 '<%= resource.downcase %>'
               ]
+              parameter do
+                key :name, :<%= resource.downcase %>
+                key :in, :body
+                key :description, '<%= resource_camelized %>'
+                key :required, true
+                key :type, :object
+                schema do
+                  key :'$ref', :CreateOrModify<%= resource_camelized %>Parameters
+                end
+              end
               response 200 do
-                key :description, '<%= resource.camelize %> response'
+                key :description, 'OK'
                 schema do
                   key :type, :object
-                  key :'$ref', :<%= resource.camelize %>
+                  key :'$ref', :JsonApiDataObject
                 end
-                # key :examples, ''
+              end
+              response 400 do
+                key :description, 'Bad request'
+                schema do
+                  key :type, :object
+                  key :'$ref', :JsonApiErrorArray
+                end
               end
             end
 
             operation :delete do
-              key :description, 'Deletes a specific <%= resource.downcase %>'
+              key :summary, 'Delete a specific <%= resource_downcased %>'
+              key :description, 'Delete a specific <%= resource_downcased %>'
               key :operationId, 'delete<%= resource.camelize %>'
               key :tags, [
-                '<%= resource.downcase %>'
+                '<%= resource_downcased %>'
               ]
-              response 200 do
-                key :description, '<%= resource.camelize %> response'
+              parameter do
+                key :name, :id
+                key :in, :path
+                key :description, 'ID of <%= resource_downcased %> to delete'
+                key :required, true
+                key :type, :integer
+                key :format, :int64
+              end
+              response 204 do
+                key :description, 'No content'
+              end
+              response 404 do
+                key :description, 'Not found'
                 schema do
                   key :type, :object
-                  key :'$ref', :<%= resource.camelize %>
+                  key :'$ref', :JsonApiErrorArray
                 end
-                # key :examples, ''
               end
             end
 
