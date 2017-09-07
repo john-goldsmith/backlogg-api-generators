@@ -1,4 +1,4 @@
-# Generated using the Backlogg Ruby on Rails generator
+<%= banner %>
 
 module <%= version.camelize %>
 
@@ -40,6 +40,7 @@ module <%= version.camelize %>
             key :basePath, '/<%= version %>'
             key :consumes, ['application/json']
             key :produces, ['application/vnd.api+json']
+            key :schemes, ['https']
           end
 
           # A list of all classes that have swagger_* declarations.

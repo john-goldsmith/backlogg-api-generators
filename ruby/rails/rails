@@ -54,6 +54,10 @@ class BackloggRubyRailsApiGenerator < Thor::Group
     run 'git init'
   end
 
+  def banner
+    "# Generated using the Backlogg Ruby on Rails generator"
+  end
+
 end
 
 BackloggRubyRailsApiGenerator.start
